@@ -20,6 +20,16 @@ namespace LiquidCrystalLibrary
 		private GpioPin d6Pin;
 		private GpioPin d7Pin;
 
+		private bool isConfigured = false;
+
+		private bool isDisplayOn = true;
+		private bool isCursorOn = true;
+		private bool isCursorBlinking = false;
+
+		private bool is8BitMode = true;
+		private bool isDoubleLines = true;
+		private bool isFont5x8 = true;
+
 		public HD44780Library()
 		{
 
@@ -53,16 +63,35 @@ namespace LiquidCrystalLibrary
 			d7Pin = gpio.OpenPin(d7);
 			d7Pin.SetDriveMode(GpioPinDriveMode.Output);
 
-			await SendInstruction(InstructionDefinitions.CLEAR_DISPLAY());
-			await SendInstruction(InstructionDefinitions.FUNCTION_SET(true, true, false));
-			await SendInstruction(InstructionDefinitions.DISPLAY_ONOFF_CONTROL(true, true, false));
+			isConfigured = true;
+
+			await ClearDisplay();
+			await ConfigureTextDisplay();
+			await ConfigureDisplay();
 			await SendInstruction(InstructionDefinitions.ENTRY_MODE_SET(true, false));
 			await SetCursorPosition(0, 0);
 		}
 
+		private async Task ConfigureTextDisplay()
+		{
+			if (isConfigured)
+			{
+				await SendInstruction(InstructionDefinitions.FUNCTION_SET(is8BitMode, isDoubleLines, !isFont5x8));
+			}
+		}
+
+		private async Task ConfigureDisplay()
+		{
+			if (isConfigured)
+			{
+				await SendInstruction(InstructionDefinitions.DISPLAY_ONOFF_CONTROL(isDisplayOn, isCursorOn, isCursorBlinking));
+
+			}
+		}
+
 		private async Task SendInstruction(BitArray instructions)
 		{
-			if (instructions.Length != 10)
+			if (instructions.Length != 10 || !isConfigured)
 			{
 				return;
 			}
@@ -86,6 +115,7 @@ namespace LiquidCrystalLibrary
 			await Task.Delay(1);
 		}
 
+
 		private void SetPin(GpioPin pin, bool value)
 		{
 			pin.Write(value ? GpioPinValue.High : GpioPinValue.Low);
@@ -97,6 +127,12 @@ namespace LiquidCrystalLibrary
 			{
 				return;
 			}
+
+			if (!isDoubleLines)
+			{
+				row = 0;
+			}
+
 			BitArray pos = new BitArray(new int[] { ((40 * row) + column) });
 			await SendInstruction(InstructionDefinitions.SET_DDRAM_ADDRESS(pos[6], pos[5], pos[4], pos[3], pos[2], pos[1], pos[0]));
 		}
@@ -114,6 +150,84 @@ namespace LiquidCrystalLibrary
 		{
 			await Write(text);
 			await SetCursorPosition(1, 0);
+		}
+
+		public async Task TurnDisplayOn()
+		{
+			isDisplayOn = true;
+			await ConfigureDisplay();
+		}
+
+		public async Task TurnDisplayOff()
+		{
+			isDisplayOn = false;
+			await ConfigureDisplay();
+		}
+
+		public async Task TurnCursorOn()
+		{
+			isCursorOn = true;
+			await ConfigureDisplay();
+		}
+
+		public async Task TurnCursorOff()
+		{
+			isCursorOn = false;
+			await ConfigureDisplay();
+		}
+
+		public async Task StartCursorBlinking()
+		{
+			isCursorBlinking = true;
+			await ConfigureDisplay();
+		}
+
+		public async Task StopCursorBlinking()
+		{
+			isCursorBlinking = false;
+			await ConfigureDisplay();
+		}
+
+		public async Task ClearDisplay()
+		{
+			await SendInstruction(InstructionDefinitions.CLEAR_DISPLAY());
+		}
+
+		public async Task SwitchTo8BitMode()
+		{
+			is8BitMode = true;
+			await ConfigureTextDisplay();
+		}
+
+		public async Task SwitchTo4BitMode()
+		{
+			//TODO: Implement 4 bit mode
+			//is8BitMode = false;
+			//await ConfigureTextDisplay();
+		}
+
+		public async Task SwitchToDoubleLines()
+		{
+			isDoubleLines = true;
+			await ConfigureTextDisplay();
+		}
+
+		public async Task SwitchToSingleLines()
+		{
+			isDoubleLines = false;
+			await ConfigureTextDisplay();
+		}
+
+		public async Task SwitchTo5x8Font()
+		{
+			isFont5x8 = true;
+			await ConfigureTextDisplay();
+		}
+
+		public async Task SwitchTo5x10Font()
+		{
+			isFont5x8 = false;
+			await ConfigureTextDisplay();
 		}
 	}
 }
