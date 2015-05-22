@@ -30,12 +30,24 @@ namespace LiquidCrystalLibrary
 		private bool isDoubleLines = true;
 		private bool isFont5x8 = true;
 
-		public HD44780Library()
-		{
+		public HD44780Library() { }
 
-		}
-
-		public async Task init(int rs, int rw, int enable, int d0, int d1, int d2, int d3, int d4, int d5, int d6, int d7)
+		/// <summary>
+		/// The initialisation method, this needs to be called before the screen is ready for use.
+		/// </summary>
+		/// <param name="rs"></param>
+		/// <param name="rw"></param>
+		/// <param name="enable"></param>
+		/// <param name="d7"></param>
+		/// <param name="d6"></param>
+		/// <param name="d5"></param>
+		/// <param name="d4"></param>
+		/// <param name="d3"></param>
+		/// <param name="d2"></param>
+		/// <param name="d1"></param>
+		/// <param name="d0"></param>
+		/// <returns></returns>
+		public async Task init(int rs, int rw, int enable, int d7, int d6, int d5, int d4, int d3, int d2, int d1, int d0)
 		{
 			var gpio = GpioController.GetDefault();
 
