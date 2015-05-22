@@ -4,7 +4,7 @@ using Windows.Devices.Gpio;
 
 namespace HD44780Library
 {
-	public class HD44780Library
+	public class HD44780Controller
 	{
 		private GpioPin rsPin;
 		private GpioPin rwPin;
@@ -28,7 +28,7 @@ namespace HD44780Library
 		private bool isDoubleLines = true;
 		private bool isFont5x8 = true;
 
-		public HD44780Library() { }
+		public HD44780Controller() { }
 
 		/// <summary>
 		/// The initialisation method, this needs to be called before the screen is ready for use.
