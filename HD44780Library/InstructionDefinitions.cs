@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace LiquidCrystalLibrary
+namespace HD44780Library
 {
 	public static class InstructionDefinitions
 	{
