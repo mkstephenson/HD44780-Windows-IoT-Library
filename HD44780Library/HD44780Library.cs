@@ -156,14 +156,19 @@ namespace HD44780Library
 		/// <returns>A notification of when the task completes</returns>
 		public async Task SetCursorPosition(int row, int column)
 		{
-			if (row > 1 || column > 40)
-			{
-				return;
-			}
-
 			if (!isDoubleLines)
 			{
 				row = 0;
+			}
+
+			if (row > 1)
+			{
+				row = 1;
+			}
+
+			if (column > 40)
+			{
+				column = 40;
 			}
 
 			BitArray pos = new BitArray(new int[] { ((40 * row) + column) });
