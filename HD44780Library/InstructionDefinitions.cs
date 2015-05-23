@@ -4,6 +4,8 @@ namespace HD44780Library
 {
 	public static class InstructionDefinitions
 	{
+		#region TemplateArrays
+
 		private static readonly BitArray clearDisplay = new BitArray(new bool[]
 			{
 				false,  //RS
@@ -34,58 +36,58 @@ namespace HD44780Library
 
 		private static readonly BitArray entryModeSet = new BitArray(new bool[]
 			{
-				false,          //RS
-				false,          //RW
-				false,          //DB7
-				false,          //DB6
-				false,          //DB5
-				false,          //DB4
-				false,          //DB3
-				true,           //DB2
-				false,			//DB1
-				true			//DB0
+				false,	//RS
+				false,	//RW
+				false,	//DB7
+				false,	//DB6
+				false,	//DB5
+				false,	//DB4
+				false,	//DB3
+				true,	//DB2
+				false,	//DB1
+				true	//DB0
 			});
 
 		private static readonly BitArray displayOnOff = new BitArray(new bool[]
 			{
-				false,	//RS
-				false,	//RW
-				false,	//DB7
-				false,	//DB6
-				false,	//DB5
-				false,	//DB4
-				true,	//DB3
-				true,	//DB2
-				false,	//DB1
-				false	//DB0
+				false,  //RS
+				false,  //RW
+				false,  //DB7
+				false,  //DB6
+				false,  //DB5
+				false,  //DB4
+				true,   //DB3
+				true,   //DB2
+				false,  //DB1
+				false   //DB0
 			});
 
 		private static readonly BitArray cursorDisplayShift = new BitArray(new bool[]
 			{
-				false,	//RS
-				false,	//RW
-				false,	//DB7
-				false,	//DB6
-				false,	//DB5
-				true,	//DB4
+				false,  //RS
+				false,  //RW
+				false,  //DB7
+				false,  //DB6
+				false,  //DB5
+				true,   //DB4
 				false,  //DB3
-				false,	//DB2
-				false,	//DB1
-				false	//DB0
+				false,  //DB2
+				false,  //DB1
+				false   //DB0
 			});
 
 		private static readonly BitArray functionSet = new BitArray(new bool[]
 			{
-				false,	//RS
-				false,	//RW
-				false,	//DB7
-				false,	//DB6
-				true,	//DB5
-				false,	//DB4
-				false,	//DB3
-				false,	//DB2
-				false,	//DB1
-				false	//DB0
+				false,  //RS
+				false,  //RW
+				false,  //DB7
+				false,  //DB6
+				true,   //DB5
+				false,  //DB4
+				false,  //DB3
+				false,  //DB2
+				false,  //DB1
+				false   //DB0
 			});
 
 		private static readonly BitArray setCGRAMAddress = new BitArray(new bool[]
@@ -106,8 +108,8 @@ namespace HD44780Library
 			{
 				false,  //RS
 				false,  //RW
-				true,	//DB7
-				false,	//DB6
+				true,   //DB7
+				false,  //DB6
 				false,  //DB5
 				false,  //DB4
 				false,  //DB3
@@ -132,8 +134,8 @@ namespace HD44780Library
 
 		private static readonly BitArray writeData = new BitArray(new bool[]
 			{
-				true,	//RS
-				false,	//RW
+				true,   //RS
+				false,  //RW
 				false,  //DB7
 				false,  //DB6
 				false,  //DB5
@@ -146,7 +148,7 @@ namespace HD44780Library
 
 		private static readonly BitArray readData = new BitArray(new bool[]
 			{
-				true,	//RS
+				true,   //RS
 				true,   //RW
 				false,  //DB7
 				false,  //DB6
@@ -156,7 +158,8 @@ namespace HD44780Library
 				false,  //DB2
 				false,  //DB1
 				false   //DB0
-			});
+			}); 
+		#endregion
 
 		/// <summary>
 		/// RS: 0 / RW: 0 / DB7: 0 / DB6: 0 / DB5: 0 / DB4: 0 / DB3: 0 / DB2: 0 / DB1: 0 / DB0:1 

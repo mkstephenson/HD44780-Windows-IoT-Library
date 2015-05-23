@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Threading.Tasks;
 using Windows.Devices.Gpio;
 
@@ -45,7 +46,7 @@ namespace HD44780Library
 		/// <param name="d1">The number of the GPIO pin assigned to the D1 pin on the display</param>
 		/// <param name="d0">The number of the GPIO pin assigned to the D0 pin on the display</param>
 		/// <returns>A notification of when the task completes</returns>
-		public async Task init(int rs, int rw, int enable, int d7, int d6, int d5, int d4, int d3, int d2, int d1, int d0)
+		public async Task Init(int rs, int rw, int enable, int d7, int d6, int d5, int d4, int d3, int d2, int d1, int d0)
 		{
 			var gpio = GpioController.GetDefault();
 
@@ -184,8 +185,8 @@ namespace HD44780Library
 		{
 			foreach (var c in text)
 			{
-				BitArray character = new BitArray(new byte[] { (byte)c });
-				await SendInstruction(InstructionDefinitions.WRITE_DATA(character[7], character[6], character[5], character[4], character[3], character[2], character[1], character[0]));
+				BitArray character = new BitArray(new byte[] { Convert.ToByte(c) });
+                await SendInstruction(InstructionDefinitions.WRITE_DATA(character[7], character[6], character[5], character[4], character[3], character[2], character[1], character[0]));
 			}
 		}
 
